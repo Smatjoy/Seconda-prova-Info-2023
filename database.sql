@@ -12,13 +12,15 @@ CREATE TABLE ClasseVirtuale(
 CREATE TABLE Docente(
     CodiceFiscale char(16) PRIMARY KEY,
     Nome varchar(200) NOT NULL,
-    Cognome varchar(200) NOT NULL
+    Cognome varchar(200) NOT NULL,
+    Password varchar(50) NOT NULL
 );
 
 CREATE TABLE Studente(
     CodiceFiscale char(16) PRIMARY KEY,
     Nome varchar(200) NOT NULL,
     Cognome varchar(200) NOT NULL,
+    Password varchar(50) NOT NULL
 );
 
 CREATE TABLE Iscrizione(
