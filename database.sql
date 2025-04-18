@@ -1,13 +1,6 @@
-CREATE DATABASE EducationalGames;
-
-CREATE TABLE ClasseVirtuale(
-    IdClasse char(5) PRIMARY KEY,
-    Classe varchar(200) NOT NULL,
-    Materia varchar(200) NOT NULL,
-    IDDocente varchar(200) NOT NULL,
-    CodiceAccesso char(6) NOT NULL,
-    FOREIGN KEY (IdDocente) REFERENCES (Docente.IDDocente)
 );
+CREATE DATABASE `educational-games`; -- Enclose name in backticks
+USE `educational-games`; -- Add USE statement with backticks
 
 CREATE TABLE Docente(
     CodiceFiscale char(16) PRIMARY KEY,
@@ -23,15 +16,6 @@ CREATE TABLE Studente(
     Password varchar(50) NOT NULL
 );
 
-CREATE TABLE Iscrizione(
-    IdClasse char(5),
-    CodiceFiscale char(16),
-    Orario TIMESTAMP,
-    PRIMARY KEY (IdClasse, CodiceFiscale),
-    FOREIGN KEY (IdClasse) REFERENCES Classe_Virtuale(IdClasse),
-    FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale)
-);
-
 CREATE TABLE Videogioco(
     IdVideogioco char(5) PRIMARY KEY,
     Titolo varchar(50) NOT NULL,
@@ -43,9 +27,27 @@ CREATE TABLE Videogioco(
     Immagine3 varchar(255) NOT NULL
 );
 
+CREATE TABLE ClasseVirtuale(
+    IdClasse char(5) PRIMARY KEY,
+    Classe varchar(200) NOT NULL,
+    Materia varchar(200) NOT NULL,
+    CodiceFiscaleDocente char(16) NOT NULL,
+    CodiceAccesso char(6) NOT NULL,
+    FOREIGN KEY (CodiceFiscaleDocente) REFERENCES Docente(CodiceFiscale)
+);
+
+CREATE TABLE Iscrizione(
+    IdClasse char(5),
+    CodiceFiscale char(16),
+    Orario TIMESTAMP,
+    PRIMARY KEY (IdClasse, CodiceFiscale),
+    FOREIGN KEY (IdClasse) REFERENCES ClasseVirtuale(IdClasse),
+    FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale)
+);
+
 CREATE TABLE Partita(
     CodiceFiscale char(16),
-    IdVideogioco char(5) PRIMARY KEY,
+    IdVideogioco char(5),
     Orario TIMESTAMP NOT NULL,
     PRIMARY KEY (CodiceFiscale, IdVideogioco),
     FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale),
@@ -55,7 +57,6 @@ CREATE TABLE Partita(
 CREATE TABLE Classe_Videogioco(
     IdClasse char(5) NOT NULL,
     IdVideogioco char(5) NOT NULL,
-    Classe varchar(10) NOT NULL
     PRIMARY KEY (IdClasse, IdVideogioco),
     FOREIGN KEY (IdClasse) REFERENCES ClasseVirtuale(IdClasse),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco)
