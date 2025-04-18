@@ -1,4 +1,3 @@
-);
 CREATE DATABASE `educational-games`; -- Enclose name in backticks
 USE `educational-games`; -- Add USE statement with backticks
 
