@@ -16,7 +16,7 @@ CREATE TABLE Studente(
 );
 
 CREATE TABLE Videogioco(
-    IdVideogioco char(5) PRIMARY KEY,
+    IdVideogioco int AUTO_INCREMENT PRIMARY KEY,
     Titolo varchar(50) NOT NULL,
     Descrizione varchar(200) NOT NULL,
     DescrizioneEstesa text NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE Videogioco(
 );
 
 CREATE TABLE ClasseVirtuale(
-    IdClasse char(5) PRIMARY KEY,
+    IdClasse int AUTO_INCREMENT PRIMARY KEY,
     Classe varchar(200) NOT NULL,
     Materia varchar(200) NOT NULL,
     CodiceFiscaleDocente char(16) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE ClasseVirtuale(
 );
 
 CREATE TABLE Iscrizione(
-    IdClasse char(5),
+    IdClasse int,
     CodiceFiscale char(16),
     Orario TIMESTAMP,
     PRIMARY KEY (IdClasse, CodiceFiscale),
@@ -46,16 +46,16 @@ CREATE TABLE Iscrizione(
 
 CREATE TABLE Partita(
     CodiceFiscale char(16),
-    IdVideogioco char(5),
-    Orario TIMESTAMP NOT NULL,
+    IdVideogioco int,
+    Orario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (CodiceFiscale, IdVideogioco),
     FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco)
 );
 
 CREATE TABLE Classe_Videogioco(
-    IdClasse char(5) NOT NULL,
-    IdVideogioco char(5) NOT NULL,
+    IdClasse int NOT NULL,
+    IdVideogioco int NOT NULL,
     PRIMARY KEY (IdClasse, IdVideogioco),
     FOREIGN KEY (IdClasse) REFERENCES ClasseVirtuale(IdClasse),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco)
