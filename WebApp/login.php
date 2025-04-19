@@ -13,8 +13,8 @@ if (!isset($_SESSION["role"])) {
 } else {
     $role = $_SESSION["role"];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $codiceFiscale = htmlspecialchars(trim($_SESSION["codiceFiscale"]));
-        $password = htmlspecialchars(trim($_SESSION["password"]));
+        $codiceFiscale = htmlspecialchars(trim($_POST["codiceFiscale"]));
+        $password = htmlspecialchars(trim($_POST["password"]));
 
         // Validazione dei dati
         if (empty($codiceFiscale) || empty($password)) {
@@ -23,20 +23,26 @@ if (!isset($_SESSION["role"])) {
             $error_message = "Inserisci un codice fiscale valido";
         } else if (strlen($password) < 8) {
             $error_message = "La password deve essere lunga almeno 8 caratteri";
-        } else if ($role = "docente") {
+        } else {
             // Recupero dell'utente dal database
-            $stmt = $conn->prepare("SELECT Password, Nome, Cognome FROM Docente WHERE CodiceFiscale = ?");
+            if ($role == "docente")
+                $stmt = $mysqli->prepare("SELECT Password, Nome, Cognome FROM Docente WHERE CodiceFiscale = ?");
+            else if ($role == "studente")
+                $stmt = $mysqli->prepare("SELECT Password, Nome, Cognome FROM Studente WHERE CodiceFiscale = ?");
+
             $stmt->bind_param("s", $codiceFiscale);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($stored_password, $nome, $cognome);
-            if ($stored_password = $password) {
+            $stmt->fetch();
+
+            if ($stored_password == $password) {
                 //Login effettuato
                 $_SESSION["nome"] = $nome;
                 $_SESSION["cognome"] = $cognome;
-                echo $nome;
-                echo $cognome;
-                header("Location: docente.php");
+                $_SESSION["codiceFiscale"] = $codiceFiscale;
+                header("Location: ./homepage/homepage.php");
+                exit();
             }
         }
     }
@@ -64,14 +70,16 @@ if (!isset($_SESSION["role"])) {
             <input type="text" id="codiceFiscale" name="codiceFiscale" required><br><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
+            <?php if ($error_message != "")
+                echo $error_message ?>
+            </div>
         </div>
-    </div>
+        <div class="div5">
+            <button><input type="submit" value="Conferma"></button>
+        </div>
+    </form>
     <div class="div5">
-        <input type="submit" value="Conferma">
+        <a href="./register.php">Non hai un account? Registrati!</a>
     </div>
-</form>
-<div class="div5">
-    <a href="./register.php">Non hai un account? Registrati!</a>
-</div>
 
-</html>
+    </html>
