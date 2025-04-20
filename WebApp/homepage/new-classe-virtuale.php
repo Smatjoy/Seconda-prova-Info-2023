@@ -1,6 +1,7 @@
 <?php
 require_once("../connessione.php");
 session_start();
+$error_message != "";
 
 if (!isset($_SESSION["codiceFiscale"])) {
     header("Location: ../index.php");
@@ -18,7 +19,7 @@ if (!isset($_SESSION["codiceFiscale"])) {
         } else {
             // Creo un codice per l'accesso
             $codiceAccesso = substr(str_shuffle(strtoupper(md5(uniqid(rand(), true)))), 0, 6);
-            
+
             $stmt = $mysqli->prepare("INSERT INTO ClasseVirtuale (Classe, Materia, CodiceFiscaleDocente, CodiceAccesso) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("ssss", $classe, $materia, $codiceFiscale, $codiceAccesso);
 
