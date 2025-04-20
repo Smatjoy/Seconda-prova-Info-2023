@@ -19,7 +19,7 @@ if (!isset($_SESSION["role"])) {
         $password = htmlspecialchars(trim($_POST["password"]));
 
         // Validazione dei dati
-        if (empty($codiceFiscale) || empty($nome) || empty($cognome || empty($password))) {
+        if (empty($codiceFiscale) || empty($nome) || empty($cognome) || empty($password)) {
             $error_message = "Tutti i campi sono obbligatori.";
         } else if (strlen($codiceFiscale) != 16) {
             $error_message = "Inserisci un codice fiscale valido";
@@ -27,9 +27,9 @@ if (!isset($_SESSION["role"])) {
             $error_message = "La password deve essere lunga almeno 8 caratteri";
         } else {
             // Inserisco l'utente nel database
-            if ($role = "docente")
+            if ($role == "docente")
                 $stmt = $mysqli->prepare("INSERT INTO Docente (CodiceFiscale, Nome, Cognome, Password) VALUES (?, ?, ?, ?)");
-            else if ($role = "studente")
+            else if ($role == "studente")
                 $stmt = $mysqli->prepare("INSERT INTO Studente (CodiceFiscale, Nome, Cognome, Password) VALUES (?, ?, ?, ?)");
 
             $stmt->bind_param("ssss", $codiceFiscale, $nome, $cognome, $password);
