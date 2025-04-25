@@ -63,16 +63,21 @@ echo        "<th>Monete massime</th>";
 echo        "<th>Immagine 1</th>";
 echo        "<th>Immagine 2</th>";
 echo        "<th>Immagine 3</th>";
+echo        "<th>Argomento</th>";
 echo        "<th>Link al gioco</th>";
 echo    "</tr>";
 
 
 
 $stmt = $mysqli->prepare("
-SELECT *
+SELECT videogioco.IdVideogioco, videogioco.Titolo, videogioco.Descrizione, videogioco.DescrizioneEstesa, videogioco.MoneteMax, videogioco.Immagine1, videogioco.Immagine2, videogioco.Immagine3,
+GROUP_CONCAT(argomento.Titolo SEPARATOR ', ') AS TitoliArgomenti
 FROM videogioco
 JOIN classe_videogioco ON classe_videogioco.IdVideogioco = videogioco.IdVideogioco
+JOIN videogioco_argomento ON classe_videogioco.IdVideogioco = videogioco_argomento.IdVideogioco
+JOIN argomento ON videogioco_argomento.IdArgomento = argomento.IdArgomento
 WHERE classe_videogioco.IdClasse = ?
+GROUP BY videogioco.IdVideogioco
 ");
 
 
@@ -93,6 +98,7 @@ while ($row = $result->fetch_assoc()){
     echo "<td><img src='./images/". $row["Immagine1"] . ".png' width='100%'></td>";
     echo "<td><img src='./images/". $row["Immagine2"] . ".png' width='100%'></td>";
     echo "<td><img src='./images/". $row["Immagine3"] . ".png' width='100%'></td>";
+    echo "<td>". $row["TitoliArgomenti"] . "</td>";
     echo "<td><a href='" . $urlGioco . "'>Gioca</a></td>";
     echo "</tr>";
 }

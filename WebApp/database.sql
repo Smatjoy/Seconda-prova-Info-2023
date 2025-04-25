@@ -60,3 +60,16 @@ CREATE TABLE Classe_Videogioco(
     FOREIGN KEY (IdClasse) REFERENCES ClasseVirtuale(IdClasse),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco)
 );
+
+CREATE TABLE Argomento(
+    IdArgomento int AUTO_INCREMENT PRIMARY KEY,
+    Titolo varchar(50) NOT NULL
+);
+
+CREATE TABLE Videogioco_Argomento(
+    IdVideogioco int NOT NULL,
+    IdArgomento int NOT NULL,
+    PRIMARY KEY (IdVideogioco, IdArgomento),
+    FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco),
+    FOREIGN KEY (IdArgomento) REFERENCES Argomento(IdArgomento)
+);
