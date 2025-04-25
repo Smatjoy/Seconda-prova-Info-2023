@@ -3,9 +3,7 @@ require_once("./connessione.php");
 session_start();
 $error_message = "";
 // Verifica la connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+
 
 if (!isset($_SESSION["role"])) {
     header("Location: index.php");
@@ -41,7 +39,12 @@ if (!isset($_SESSION["role"])) {
                 $_SESSION["nome"] = $nome;
                 $_SESSION["cognome"] = $cognome;
                 $_SESSION["codiceFiscale"] = $codiceFiscale;
-                header("Location: ./homepage/homepage.php");
+
+                if ($role = "studente") {
+                    header("Location: ./dashboard_studente.php");
+                } else {
+                    header("Location: ./homepage/homepage.php");
+                }
                 exit();
             }
         }

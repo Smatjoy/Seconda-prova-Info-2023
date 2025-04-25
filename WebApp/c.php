@@ -1,0 +1,101 @@
+<?php
+
+// Mostriamo i giochi che sono disponibili nella classe scelta
+
+// Recuperare la classe dall'URL
+// Verificare che lo studente è davvero in quella classe
+// Se lo studente è nella classe, mostrare una tabella con le informazioni sui giochi
+
+require_once("connessione.php");
+
+session_start();
+
+if (!isset($_SESSION["nome"])) {
+    // non è autenticato
+    echo "Non sei autenticato!";
+    die();
+}
+
+
+// Recuperiamo i dettagli dell'utente autenticato
+$nome = $_SESSION["nome"];
+$cognome = $_SESSION["cognome"];
+$codiceFiscale = $_SESSION["codiceFiscale"];
+$role = $_SESSION["role"];
+
+// Recuperare la classe dall'URL ?classe={idClasse}
+$classe = $_GET["classe"];
+
+// Verificare che lo studente è davvero in quella classe
+// Controllo se nella tabella 'iscrizione' è presente una riga con 'IdClasse'= $classe & 'CodiceFisclae' = $codiceFiscale
+
+$stmt = $mysqli->prepare("
+SELECT EXISTS (
+SELECT 1
+FROM iscrizione
+WHERE IdClasse = ?
+AND CodiceFiscale = ?)
+");
+
+$stmt->bind_param("is", $classe, $codiceFiscale);
+$stmt->execute();
+$stmt->bind_result($isIscritto);
+$stmt->fetch();
+
+if (!$isIscritto){
+    // Lo studente non è in quella classe
+    echo "Non sei iscritto alla classe richiesta!";
+    die();
+}
+
+$stmt->close();
+
+
+// Mostriamo i dettagli dei giochi della classe
+
+echo "<table border='1'>";
+echo    "<tr>";
+echo        "<th>ID Videogioco</th>";
+echo        "<th>Titolo</th>";
+echo        "<th>Descrizione</th>";
+echo        "<th>Descrizione estesa</th>";
+echo        "<th>Monete massime</th>";
+echo        "<th>Immagine 1</th>";
+echo        "<th>Immagine 2</th>";
+echo        "<th>Immagine 3</th>";
+echo        "<th>Link al gioco</th>";
+echo    "</tr>";
+
+
+
+$stmt = $mysqli->prepare("
+SELECT *
+FROM videogioco
+JOIN classe_videogioco ON classe_videogioco.IdVideogioco = videogioco.IdVideogioco
+WHERE classe_videogioco.IdClasse = ?
+");
+
+
+$stmt->bind_param("i", $classe);
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$urlGioco = "#";
+
+while ($row = $result->fetch_assoc()){
+    echo "<tr>";
+    echo "<td>". $row["IdVideogioco"] . "</td>";
+    echo "<td>". $row["Titolo"] . "</td>";
+    echo "<td>". $row["Descrizione"] . "</td>";
+    echo "<td>". $row["DescrizioneEstesa"] . "</td>";
+    echo "<td>". $row["MoneteMax"] . "</td>";
+    echo "<td><img src='./images/". $row["Immagine1"] . ".png' width='100%'></td>";
+    echo "<td><img src='./images/". $row["Immagine2"] . ".png' width='100%'></td>";
+    echo "<td><img src='./images/". $row["Immagine3"] . ".png' width='100%'></td>";
+    echo "<td><a href='" . $urlGioco . "'>Gioca</a></td>";
+    echo "</tr>";
+}
+
+echo "</table>";
+?>

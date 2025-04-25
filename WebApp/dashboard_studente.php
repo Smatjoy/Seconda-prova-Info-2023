@@ -85,7 +85,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<tr>";
     echo    "<td>". htmlspecialchars($row['Materia'])." - ". htmlspecialchars($row['Classe']). "</td>";
     echo    "<td>". htmlspecialchars($row['Nome']) . " " . htmlspecialchars($row['Cognome']). "</td>";
-    echo    "<td>". "<a href='c/" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
+    echo    "<td>". "<a href='c.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
     echo "</tr>";
 }
 
