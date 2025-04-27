@@ -39,11 +39,12 @@ if (!isset($_SESSION["role"])) {
                 $_SESSION["nome"] = $nome;
                 $_SESSION["cognome"] = $cognome;
                 $_SESSION["codiceFiscale"] = $codiceFiscale;
-
-                if ($role = "studente") {
-                    header("Location: ./dashboard_studente.php");
+                $_SESSION["role"] = $role;
+                
+                if ($role == "studente") {
+                    header("Location: ./homepage/dashboard_studente.php");
                 } else {
-                    header("Location: ./homepage/homepage.php");
+                    header("Location: ./homepage/dashboard_docente.php");
                 }
                 exit();
             }

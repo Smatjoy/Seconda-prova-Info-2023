@@ -38,7 +38,10 @@ if (!isset($_SESSION["role"])) {
                 $_SESSION["cognome"] = $cognome;
                 $_SESSION["codiceFiscale"] = $codiceFiscale;
                 echo "<script>alert('Dati inseriti con successo!');</script>";
-                header("Location: ./homepage/homepage.php");
+                if ($role == "docente")
+                header("Location: ./homepage/dashboard_docente.php");
+                if ($role == "studente")
+                header("Location: ./homepage/dashboard_studente.php");
             } else {
                 echo "<script>alert('Errore durante l\'inserimento dei dati: " . addslashes($stmt->error) . "');</script>";
             }
