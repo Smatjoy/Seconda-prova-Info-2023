@@ -6,8 +6,6 @@
 // Verificare che lo studente è davvero in quella classe
 // Se lo studente è nella classe, mostrare una tabella con le informazioni sui giochi
 
-require_once("connessione.php");
-
 session_start();
 
 if (!isset($_SESSION["nome"])) {
@@ -15,6 +13,10 @@ if (!isset($_SESSION["nome"])) {
     echo "Non sei autenticato!";
     die();
 }
+
+require_once("../connessione.php");
+
+echo "<a href='../homepage/dashboard_studente.php'>&lt-Torna indietro</a><br>";
 
 
 // Recuperiamo i dettagli dell'utente autenticato

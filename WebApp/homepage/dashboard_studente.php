@@ -1,5 +1,5 @@
 <?php
-require_once("./connessione.php");
+require_once("../connessione.php");
 
 
 /* // query per aggiungere uno studente
@@ -45,7 +45,7 @@ echo "<b>Codice fiscale:</b> " . $codiceFiscale . "<br>";
 
 echo "<hr>";
 // form per iscriversi ad una nuova classe
-echo "<form action='join_class.php'>";
+echo "<form action='../routes/join_class.php'>";
 echo    "<label for='codice'>Codice corso: </label>";
 echo    "<input type='text' id='codice' name='codice' required>";
 echo "<input type='submit' value='Entra!'>";
@@ -85,7 +85,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<tr>";
     echo    "<td>". htmlspecialchars($row['Materia'])." - ". htmlspecialchars($row['Classe']). "</td>";
     echo    "<td>". htmlspecialchars($row['Nome']) . " " . htmlspecialchars($row['Cognome']). "</td>";
-    echo    "<td>". "<a href='c.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
+    echo    "<td>". "<a href='../routes/c.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
     echo "</tr>";
 }
 

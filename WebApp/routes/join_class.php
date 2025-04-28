@@ -14,12 +14,12 @@ if (!isset($_GET['codice'])){
     die();
 }
 
-echo "<a href='dashboard_studente.php'>&lt-Torna indietro</a><br>";
+echo "<a href='../homepage/dashboard_studente.php'>&lt-Torna indietro</a><br>";
 
 $codiceFiscale = $_SESSION['codiceFiscale'];
 $codiceAccesso = $_GET['codice'];
 
-require_once("./connessione.php");
+require_once("../connessione.php");
 
 // recuperare l'idClasse in base al codice di accesso
 $stmt = $mysqli->prepare("

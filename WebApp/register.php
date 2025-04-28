@@ -2,10 +2,6 @@
 require_once("./connessione.php");
 session_start();
 $error_message = "";
-// Verifica la connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
 
 if (!isset($_SESSION["role"])) {
     header("Location: index.php");
@@ -34,14 +30,12 @@ if (!isset($_SESSION["role"])) {
 
             $stmt->bind_param("ssss", $codiceFiscale, $nome, $cognome, $password);
             if ($stmt->execute()) {
-                $_SESSION["nome"] = $nome;
-                $_SESSION["cognome"] = $cognome;
-                $_SESSION["codiceFiscale"] = $codiceFiscale;
                 echo "<script>alert('Dati inseriti con successo!');</script>";
-                if ($role == "docente")
-                header("Location: ./homepage/dashboard_docente.php");
-                if ($role == "studente")
-                header("Location: ./homepage/dashboard_studente.php");
+
+                $_SESSION["role"] = $role;
+
+                header("Location: ./login.php");
+
             } else {
                 echo "<script>alert('Errore durante l\'inserimento dei dati: " . addslashes($stmt->error) . "');</script>";
             }

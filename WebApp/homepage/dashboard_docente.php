@@ -1,5 +1,5 @@
 <?php
-require_once("./connessione.php");
+require_once("../connessione.php");
 $noClasses = true;
 
 /* // query per aggiungere uno studente
