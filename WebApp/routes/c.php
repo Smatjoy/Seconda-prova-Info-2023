@@ -11,6 +11,7 @@ session_start();
 if (!isset($_SESSION["nome"])) {
     // non è autenticato
     echo "Non sei autenticato!";
+    header("Location: ../index.php");
     die();
 }
 

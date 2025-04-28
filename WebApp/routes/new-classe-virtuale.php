@@ -3,6 +3,7 @@ require_once("../connessione.php");
 session_start();
 
 if (!isset($_SESSION["codiceFiscale"])) {
+    echo "Non sei autenticato!";
     header("Location: ../index.php");
     exit();
 } else {

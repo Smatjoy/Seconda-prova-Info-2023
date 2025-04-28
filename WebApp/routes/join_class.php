@@ -6,6 +6,7 @@ $authenticated = isset($_SESSION['nome']);
 
 if (!$authenticated){
     echo "Non sei autenticato!";
+    header("Location: ../index.php");
     die();
 }
 

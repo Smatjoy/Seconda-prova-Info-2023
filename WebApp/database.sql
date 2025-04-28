@@ -48,7 +48,8 @@ CREATE TABLE Partita(
     CodiceFiscale char(16),
     IdVideogioco int,
     Orario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (CodiceFiscale, IdVideogioco),
+    Monete int NOT NULL,
+    PRIMARY KEY (CodiceFiscale, IdVideogioco, Orario),
     FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco)
 );

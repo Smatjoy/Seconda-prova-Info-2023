@@ -79,9 +79,8 @@ if (!$noClasses) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . htmlspecialchars($row['Materia']) . " - " . htmlspecialchars($row['Classe']) . "</td>";
-        echo "<td>" . "<a href='c.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
         echo "<td>" . $row['CodiceAccesso'] . "</td>";
-        echo "<td>" . "<a href='leadboard.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
+        echo "<td>" . "<a href='../routes/leadboard.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
         echo "</tr>";
     }
 } else {
