@@ -57,7 +57,27 @@ if (!$isIscritto){
 $stmt->close();
 
 
-// Mostriamo la classifica della classe
+// Mostrare il titolo della classe
+$stmt = $mysqli->prepare("
+SELECT Materia, Classe
+FROM classevirtuale
+WHERE IdClasse = ?
+");
+
+$stmt->bind_param("i", $classe);
+
+$stmt->execute();
+$stmt->bind_result($Materia, $NomeClasse);
+
+$stmt->fetch();
+
+echo "<h1> Classfica di: ". $Materia . " - " . $NomeClasse . "</h1>";
+
+$stmt->close();
+
+
+// Mostrare la classifica della classe
+
 
 echo "<table border='1'>";
 echo    "<tr>";
