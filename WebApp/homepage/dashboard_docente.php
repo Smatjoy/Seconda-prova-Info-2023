@@ -40,9 +40,16 @@ echo "<b>Cognome:</b> " . $cognome . "<br>";
 echo "<b>Codice fiscale:</b> " . $codiceFiscale . "<br>";
 
 echo "<hr>";
-// Bottone per creare una nuova classe
-echo "<button type='button' onclick=\"window.location.href='./new-classe-virtuale.php'\">Nuova Classe Virtuale</button>";
+
+// Form nuova classe virtuale
+echo "<form action='../routes/new-classe-virtuale.php' method='POST'>";
+echo    "<label for='codice'>classe: </label>";
+echo    "<input type='text' id='classe' name='classe' required>";
+echo    "<label for='codice'>materia: </label>";
+echo    "<input type='text' id='materia' name='materia' required>";
+echo "<input type='submit' value='Crea!'>";
 echo "<hr>";
+
 // mostrare le classi del docente
 $stmt = $mysqli->prepare("SELECT * FROM ClasseVirtuale WHERE CodiceFiscaleDocente = ?");
 $stmt->bind_param("s", $codiceFiscale);
@@ -61,7 +68,8 @@ if ($result->num_rows > 0) {
 echo "<table border='1'>";
 echo "<tr>";
 echo "<th>Materia - Classe</th>";
-echo "<th>Apri</th>";
+echo "<th>Codice di accesso</th>";
+echo "<th>Classifica</th>";
 echo "</tr>";
 
 // Reset the result pointer
@@ -72,6 +80,8 @@ if (!$noClasses) {
         echo "<tr>";
         echo "<td>" . htmlspecialchars($row['Materia']) . " - " . htmlspecialchars($row['Classe']) . "</td>";
         echo "<td>" . "<a href='c.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
+        echo "<td>" . $row['CodiceAccesso'] . "</td>";
+        echo "<td>" . "<a href='leadboard.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
         echo "</tr>";
     }
 } else {
