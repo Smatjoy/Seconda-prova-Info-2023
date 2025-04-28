@@ -73,10 +73,9 @@ $stmt = $mysqli->prepare("
 SELECT partita.CodiceFiscale AS CodiceFiscaleStudente, studente.Nome AS Nome, studente.Cognome AS Cognome, SUM(partita.Monete) AS MoneteTotali
 FROM studente
 JOIN iscrizione ON (studente.CodiceFiscale = iscrizione.CodiceFiscale)
-JOIN classevirtuale ON (classevirtuale.IdClasse = iscrizione.IdClasse)
 JOIN partita ON (studente.CodiceFiscale = partita.CodiceFiscale)
 
-WHERE classevirtuale.IdClasse = ?
+WHERE iscrizione.IdClasse = ?
 
 GROUP BY partita.CodiceFiscale
 
