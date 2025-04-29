@@ -15,7 +15,7 @@ if (!isset($_SESSION["nome"])) {
 
 require_once("../connessione.php");
 
-echo "<a href='../homepage/dashboard_docente.php'>&lt-Torna indietro</a><br>";
+echo "<a href='../homepage/dashboard_studente.php'>&lt-Torna alla dashboard</a><br>";
 
 // Recuperiamo i dettagli dell'utente autenticato
 $nome = $_SESSION["nome"];
@@ -32,14 +32,10 @@ if (!(isset($_POST['gioco']) && isset($_POST['punteggio']) && isset($_POST['test
     die();
 }
 
-echo "Everything ok";
-
 $gioco = $_POST['gioco'];
 $punteggio = $_POST['punteggio'];
 $testo = $_POST['testo'];
 
-// Santificazione input
-// TODO
 // Santificazione e validazione input
 if (!is_numeric($gioco) || $gioco < 0) {
     echo "Errore: ID gioco non valido.";
@@ -57,7 +53,24 @@ if (empty($testo) || strlen($testo) > 160) {
     die();
 }
 
+// Controllo se lo studente è nella classe associata al gioco
+$stmt = $mysqli->prepare("
+SELECT EXISTS (
+    SELECT 1
+    FROM classe_videogioco
+    JOIN iscrizione ON classe_videogioco.IdClasse = iscrizione.IdClasse
+    WHERE classe_videogioco.IdVideogioco = ?
+    AND iscrizione.CodiceFiscale = ?)");
+$stmt->bind_param("is", $gioco, $codiceFiscale);
+$stmt->execute();
+$stmt->bind_result($isAuthorized);
+$stmt->fetch();
+$stmt->close();
 
+if (!$isAuthorized) {
+    echo "Errore: non sei autorizzato a lasciare un feedback per questo gioco.";
+    die();
+}
 
 $stmt = $mysqli->prepare("
 INSERT INTO feedback (`IdVideogioco`, `CodiceFiscale`, `Punteggio`, `Testo`)
