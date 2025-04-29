@@ -74,3 +74,14 @@ CREATE TABLE Videogioco_Argomento(
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco),
     FOREIGN KEY (IdArgomento) REFERENCES Argomento(IdArgomento)
 );
+
+CREATE TABLE Feedback(
+    IdVideogioco int NOT NULL,
+    CodiceFiscale char(16) NOT NULL,
+    Punteggio int NOT NULL,
+    Testo VARCHAR(160),
+    Orario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (IdVideogioco, CodiceFiscale),
+    FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco),
+    FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale)
+);
