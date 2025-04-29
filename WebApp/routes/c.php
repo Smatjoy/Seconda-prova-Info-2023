@@ -68,7 +68,8 @@ echo        "<th>Immagine 2</th>";
 echo        "<th>Immagine 3</th>";
 echo        "<th>Argomento</th>";
 echo        "<th>Link al gioco</th>";
-echo    "</tr>";
+echo        "<th>Invia Feedback</th>";
+echo "</tr>";
 
 
 
@@ -103,6 +104,16 @@ while ($row = $result->fetch_assoc()){
     echo "<td><img src='./images/". $row["Immagine3"] . ".png' width='100%'></td>";
     echo "<td>". $row["TitoliArgomenti"] . "</td>";
     echo "<td><a href='" . $urlGioco . "'>Gioca</a></td>";
+    echo "<td>";
+    echo "<form action='../routes/feedback.php' method='POST'>";
+    echo "<input type='hidden' name='gioco' value='". $row["IdVideogioco"] ."'>";
+    echo "<label for='punteggio_". $row["IdVideogioco"] ."'>Punteggio (1-5):</label><br>";
+    echo "<input type='number' id='punteggio_". $row["IdVideogioco"] ."' name='punteggio' min='1' max='5' required><br>";
+    echo "<label for='testo_". $row["IdVideogioco"] ."'>Testo feedback:</label><br>";
+    echo "<input type='text' id='testo_". $row["IdVideogioco"] ."' name='testo' maxlength='160' required><br>";
+    echo "<button type='submit'>Invia</button>";
+    echo "</form>";
+    echo "</td>";
     echo "</tr>";
 }
 

@@ -81,7 +81,7 @@ CREATE TABLE Feedback(
     Punteggio int NOT NULL,
     Testo VARCHAR(160),
     Orario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (IdVideogioco, CodiceFiscale),
+    PRIMARY KEY (IdVideogioco, CodiceFiscale, Orario),
     FOREIGN KEY (IdVideogioco) REFERENCES Videogioco(IdVideogioco),
     FOREIGN KEY (CodiceFiscale) REFERENCES Studente(CodiceFiscale)
 );
