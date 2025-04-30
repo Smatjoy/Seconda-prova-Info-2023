@@ -60,7 +60,7 @@ $stmt->close();
 // Mostrare il titolo della classe
 $stmt = $mysqli->prepare("
 SELECT Materia, Classe
-FROM classevirtuale
+FROM ClasseVirtuale
 WHERE IdClasse = ?
 ");
 
