@@ -1,22 +1,6 @@
 <?php
 require_once("../connessione.php");
 
-
-/* // query per aggiungere uno studente
-$stmt = $mysqli->prepare("INSERT INTO Studente (CodiceFiscale, Nome, Cognome, Password) VALUES (?, ?, ?, ?)");
-
-$nome = "pippo";
-$cognome = "baudo";
-$codiceFiscale = "1234567890123456";
-$password = "secret12345";
-
-
-$stmt->bind_param("ssss", $codiceFiscale, $nome, $cognome, $password);
-
-$stmt->execute(); */
-
-
-
 session_start();
 
 $authenticated = isset($_SESSION["nome"]); // TRUE se autenticato
@@ -31,6 +15,11 @@ $nome = $_SESSION["nome"];
 $cognome = $_SESSION["cognome"];
 $codiceFiscale = $_SESSION["codiceFiscale"];
 $role = $_SESSION["role"]; // role = "studente" va bene
+
+if ($role == "docente") {
+    header("Location: ./dashboard_docente.php");
+    exit();
+}
 
 
 // mostrare le informazioni sull'utente attuale
