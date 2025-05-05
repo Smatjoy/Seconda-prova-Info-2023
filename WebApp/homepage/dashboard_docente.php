@@ -70,6 +70,7 @@ echo "<tr>";
 echo "<th>Materia - Classe</th>";
 echo "<th>Codice di accesso</th>";
 echo "<th>Classifica</th>";
+echo "<th>Studenti</th>";
 echo "</tr>";
 
 // Reset the result pointer
@@ -81,6 +82,7 @@ if (!$noClasses) {
         echo "<td>" . htmlspecialchars($row['Materia']) . " - " . htmlspecialchars($row['Classe']) . "</td>";
         echo "<td>" . $row['CodiceAccesso'] . "</td>";
         echo "<td>" . "<a href='../routes/leadboard.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
+        echo "<td>" . "<a href='../routes/view_class.php?classe=" . $row['IdClasse'] . "'>Apri</a>" . "</td>";
         echo "</tr>";
     }
 } else {
