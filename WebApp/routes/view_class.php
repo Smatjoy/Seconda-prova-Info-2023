@@ -1,6 +1,9 @@
 <?php
 require_once("../connessione.php");
 session_start();
+
+echo "<a href='../homepage/dashboard_docente.php'>&lt-Torna indietro</a><br>";
+
 $classe = $_GET["classe"];
 
 echo "<table border='1'>";

@@ -99,9 +99,9 @@ while ($row = $result->fetch_assoc()){
     echo "<td>". $row["Descrizione"] . "</td>";
     echo "<td>". $row["DescrizioneEstesa"] . "</td>";
     echo "<td>". $row["MoneteMax"] . "</td>";
-    echo "<td><img src='./images/". $row["Immagine1"] . ".png' width='100%'></td>";
-    echo "<td><img src='./images/". $row["Immagine2"] . ".png' width='100%'></td>";
-    echo "<td><img src='./images/". $row["Immagine3"] . ".png' width='100%'></td>";
+    echo "<td><img src='../images/". $row["Immagine1"] . "' width='100%'></td>";
+    echo "<td><img src='../images/". $row["Immagine2"] . "' width='100%'></td>";
+    echo "<td><img src='../images/". $row["Immagine3"] . "' width='100%'></td>";
     echo "<td>". $row["TitoliArgomenti"] . "</td>";
     echo "<td><a href='" . $urlGioco . "'>Gioca</a></td>";
     echo "<td>";
