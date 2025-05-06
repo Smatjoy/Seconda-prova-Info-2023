@@ -67,23 +67,21 @@ if (!isset($_SESSION["role"])) {
     <h1>Login <?php echo $role ?></h1>
 </div>
 
-<form method="post" action="login.php" class="form-data">
+<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="form-data">
     <div class="parent">
         <div class="div6">
             <label for="codiceFiscale">Codice Fiscale:</label>
             <input type="text" id="codiceFiscale" name="codiceFiscale" required><br><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
-            <?php if ($error_message != "")
-                echo $error_message ?>
-            </div>
+            <?php if (!empty($error_message)) echo "<p class='error'>$error_message</p>"; ?>
         </div>
         <div class="div5">
-            <button><input type="submit" value="Conferma"></button>
+            <input type="submit" value="Conferma">
         </div>
-    </form>
-    <div class="div5">
-        <a href="./register.php">Non hai un account? Registrati!</a>
     </div>
-
-    </html>
+</form>
+<div class="div5">
+    <a href="./register.php">Non hai un account? Registrati!</a>
+</div>
+</html>

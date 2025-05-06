@@ -58,27 +58,29 @@ if (!isset($_SESSION["role"])) {
     <h1>Registrazione <?php echo $role ?></h1>
 </div>
 
-<form method="post" action="register.php" class="form-data">
-    <div class="parent">
-        <div class="div6">
-            <label for="codiceFiscale">Codice Fiscale:</label>
-            <input type="text" id="codiceFiscale" name="codiceFiscale" required><br><br>
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required><br><br>
-            <label for="cognome">Cognome:</label>
-            <input type="text" id="cognome" name="cognome" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <?php if ($error_message != "")
-                echo $error_message ?>
+<body>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="form-data">
+        <div class="parent">
+            <div class="div6">
+                <label for="codiceFiscale">Codice Fiscale:</label>
+                <input type="text" id="codiceFiscale" name="codiceFiscale" required><br><br>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required><br><br>
+                <label for="cognome">Cognome:</label>
+                <input type="text" id="cognome" name="cognome" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <?php if ($error_message != "")
+                    echo $error_message ?>
+                </div>
             </div>
-        </div>
+            <div class="div5">
+                <input type="submit" value="Conferma">
+            </div>
+        </form>
         <div class="div5">
-            <input type="submit" value="Conferma">
+            <a href="./register.php">Non hai un account? Registrati!</a>
         </div>
-    </form>
-    <div class="div5">
-        <a href="./register.php">Non hai un account? Registrati!</a>
-    </div>
+    </body>
 
     </html>
