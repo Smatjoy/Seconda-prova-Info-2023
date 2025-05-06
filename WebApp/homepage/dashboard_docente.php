@@ -34,7 +34,7 @@ $role = $_SESSION["role"]; // role = "docente" va bene
 // mostrare le informazioni sull'utente attuale
 echo "<h2>Le tue informazioni:</h2>";
 
-echo "<b>Ruolo:</b> Docente<br>";
+echo "<b>Ruolo:</b> <br>";
 
 echo "<b>Nome:</b> " . $nome . "<br>";
 
@@ -42,7 +42,7 @@ echo "<b>Cognome:</b> " . $cognome . "<br>";
 
 echo "<b>Codice fiscale:</b> " . $codiceFiscale . "<br>";
 
-echo '<button type="button" onclick="window.location.href=\'../logout.php\'">logout.php</button>';
+echo '<button type="button" onclick="window.location.href=\'../logout.php\'">Logout</button>';
 
 echo "<hr>";
 

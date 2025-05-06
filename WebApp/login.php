@@ -2,13 +2,9 @@
 require_once("./connessione.php");
 session_start();
 $error_message = "";
-// Verifica la connessione
 
-
-if (!isset($_SESSION["role"])) {
-    header("Location: index.php");
-    exit();
-} else {
+// Questo controllo sta impedendo l'accesso - modifichiamolo
+if (isset($_SESSION["role"])) {
     $role = $_SESSION["role"];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $codiceFiscale = htmlspecialchars(trim($_POST["codiceFiscale"]));
@@ -19,8 +15,6 @@ if (!isset($_SESSION["role"])) {
             $error_message = "Tutti i campi sono obbligatori.";
         } else if (strlen($codiceFiscale) != 16) {
             $error_message = "Inserisci un codice fiscale valido";
-        } else if (strlen($password) < 8) {
-            $error_message = "La password deve essere lunga almeno 8 caratteri";
         } else {
             // Recupero dell'utente dal database
             if ($role == "docente")
@@ -31,25 +25,38 @@ if (!isset($_SESSION["role"])) {
             $stmt->bind_param("s", $codiceFiscale);
             $stmt->execute();
             $stmt->store_result();
-            $stmt->bind_result($stored_password, $nome, $cognome);
-            $stmt->fetch();
+            
+            // Controlla se l'utente esiste
+            if ($stmt->num_rows > 0) {
+                $stmt->bind_result($stored_password, $nome, $cognome);
+                $stmt->fetch();
 
-            if ($stored_password == $password) {
-                //Login effettuato
-                $_SESSION["nome"] = $nome;
-                $_SESSION["cognome"] = $cognome;
-                $_SESSION["codiceFiscale"] = $codiceFiscale;
-                $_SESSION["role"] = $role;
-                
-                if ($role == "studente") {
-                    header("Location: ./homepage/dashboard_studente.php");
+                if ($stored_password == $password) {
+                    //Login effettuato
+                    $_SESSION["nome"] = $nome;
+                    $_SESSION["cognome"] = $cognome;
+                    $_SESSION["codiceFiscale"] = $codiceFiscale;
+                    $_SESSION["role"] = $role;
+                    
+                    if ($role == "studente") {
+                        header("Location: ./homepage/dashboard_studente.php");
+                    } else {
+                        header("Location: ./homepage/dashboard_docente.php");
+                    }
+                    exit();
                 } else {
-                    header("Location: ./homepage/dashboard_docente.php");
+                    $error_message = "Password non corretta.";
                 }
-                exit();
+            } else {
+                $error_message = "Utente non trovato.";
             }
         }
     }
+}
+
+// Se non è impostato il ruolo, imposta un valore di default
+if (!isset($role)) {
+    $role = "studente"; // Default role
 }
 ?>
 

@@ -79,7 +79,7 @@ if (!isset($_SESSION["role"])) {
             </div>
         </form>
         <div class="div5">
-            <a href="./register.php">Non hai un account? Registrati!</a>
+            <a href="./login.php">Hai già un account? Accedi</a>
         </div>
     </body>
 
