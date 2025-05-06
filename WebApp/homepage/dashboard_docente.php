@@ -33,19 +33,24 @@ $role = $_SESSION["role"]; // role = "docente" va bene
 
 // mostrare le informazioni sull'utente attuale
 echo "<h2>Le tue informazioni:</h2>";
+
+echo "<b>Ruolo:</b> Docente<br>";
+
 echo "<b>Nome:</b> " . $nome . "<br>";
 
 echo "<b>Cognome:</b> " . $cognome . "<br>";
 
 echo "<b>Codice fiscale:</b> " . $codiceFiscale . "<br>";
 
+echo '<button type="button" onclick="window.location.href=\'../logout.php\'">logout.php</button>';
+
 echo "<hr>";
 
 // Form nuova classe virtuale
 echo "<form action='../routes/new-classe-virtuale.php' method='POST'>";
-echo    "<label for='codice'>classe: </label>";
+echo    "<label for='codice'>Classe: </label>";
 echo    "<input type='text' id='classe' name='classe' required>";
-echo    "<label for='codice'>materia: </label>";
+echo    "<label for='codice'>   Materia: </label>";
 echo    "<input type='text' id='materia' name='materia' required>";
 echo "<input type='submit' value='Crea!'>";
 echo "<hr>";
