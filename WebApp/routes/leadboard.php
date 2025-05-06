@@ -88,7 +88,7 @@ echo        "<th>Monete</th>";
 echo    "</tr>";
 
 
-
+// Trovo monete totali dello studente
 $stmt = $mysqli->prepare("
 SELECT partita.CodiceFiscale AS CodiceFiscaleStudente, studente.Nome AS Nome, studente.Cognome AS Cognome, SUM(partita.Monete) AS MoneteTotali
 FROM studente
