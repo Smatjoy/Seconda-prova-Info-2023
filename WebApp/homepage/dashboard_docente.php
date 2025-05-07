@@ -25,6 +25,17 @@ $role = $_SESSION["role"]; // role = "docente" va bene
 <div class="dashboard-container">
     <h2><i class="fas fa-chalkboard-teacher"></i> Dashboard Docente</h2>
     
+    <?php
+    if (isset($_SESSION["success"])) {
+        echo '<div class="alert success"><i class="fas fa-check-circle"></i> ' . $_SESSION["success"] . '</div>';
+        unset($_SESSION["success"]);
+    }
+    if (isset($_SESSION["error"])) {
+        echo '<div class="alert error"><i class="fas fa-exclamation-circle"></i> ' . $_SESSION["error"] . '</div>';
+        unset($_SESSION["error"]);
+    }
+    ?>
+    
     <div class="user-info">
         <div class="user-info-item"><i class="fas fa-user-tag"></i> <b>Ruolo:</b> Docente</div>
         <div class="user-info-item"><i class="fas fa-user"></i> <b>Nome:</b> <?php echo $nome; ?></div>
@@ -34,6 +45,7 @@ $role = $_SESSION["role"]; // role = "docente" va bene
     
     <div style="text-align: center; margin: 20px 0;">
         <button type="button" onclick="window.location.href='../logout.php'"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <button type="button" onclick="window.location.href='workshop.php'" style="margin-left: 10px; background-color: #10b981;"><i class="fas fa-gamepad"></i> Workshop Giochi</button>
     </div>
 
     <hr>
@@ -74,6 +86,7 @@ $role = $_SESSION["role"]; // role = "docente" va bene
             <th><i class="fas fa-key"></i> Codice di accesso</th>
             <th><i class="fas fa-trophy"></i> Classifica</th>
             <th><i class="fas fa-users"></i> Studenti</th>
+            <th><i class="fas fa-edit"></i> Modifica</th>
         </tr>
 
         <?php
@@ -84,13 +97,30 @@ $role = $_SESSION["role"]; // role = "docente" va bene
                 echo "<td><span class='access-code'>" . $row['CodiceAccesso'] . "</span></td>";
                 echo "<td><a href='../routes/leadboard.php?classe=" . $row['IdClasse'] . "' class='action-btn leaderboard-btn' title='Visualizza classifica'><i class='fas fa-trophy'></i></a></td>";
                 echo "<td><a href='../routes/view_class.php?classe=" . $row['IdClasse'] . "' class='action-btn students-btn' title='Visualizza studenti'><i class='fas fa-users'></i></a></td>";
+                echo "<td><button onclick='openEditModal(" . $row['IdClasse'] . ", \"" . htmlspecialchars($row['Materia']) . "\", \"" . htmlspecialchars($row['Classe']) . "\")' class='action-btn edit-btn' title='Modifica classe'><i class='fas fa-edit'></i></button></td>";
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='4'><i class='fas fa-info-circle'></i> Non hai ancora creato classi virtuali</td></tr>";
+            echo "<tr><td colspan='5'><i class='fas fa-info-circle'></i> Non hai ancora creato classi virtuali</td></tr>";
         }
         ?>
     </table>
+</div>
+
+<!-- Modal per la modifica della classe -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3><i class="fas fa-edit"></i> Modifica Classe Virtuale</h3>
+        <form action='../routes/edit-classe-virtuale.php' method='POST'>
+            <input type="hidden" id="editIdClasse" name="idClasse">
+            <label for='editClasse'><i class="fas fa-users"></i> Classe:</label>
+            <input type='text' id='editClasse' name='classe' required placeholder="Es. 3A, 4B">
+            <label for='editMateria'><i class="fas fa-book"></i> Materia:</label>
+            <input type='text' id='editMateria' name='materia' required placeholder="Es. Matematica, Storia">
+            <button type='submit'><i class="fas fa-save"></i> Salva modifiche</button>
+        </form>
+    </div>
 </div>
 
 <style>
@@ -179,4 +209,127 @@ $role = $_SESSION["role"]; // role = "docente" va bene
     button i {
         margin-right: 8px;
     }
+    
+    /* Stili per il modal e il pulsante di modifica */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .close {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #666;
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        color: #000;
+    }
+    
+    .edit-btn {
+        background-color: #10b981;
+    }
+    
+    .edit-btn:hover {
+        background-color: #059669;
+        transform: scale(1.1);
+    }
+    
+    /* Stili per il form nel modal */
+    .modal-content form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .modal-content input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    
+    .modal-content button {
+        background-color: #10b981;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+    }
+    
+    .modal-content button:hover {
+        background-color: #059669;
+    }
+    
+    /* Stili per i messaggi di alert */
+    .alert {
+        padding: 12px 20px;
+        margin: 20px 0;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .alert.success {
+        background-color: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+    }
+    
+    .alert.error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+    
+    .alert i {
+        font-size: 18px;
+    }
 </style>
+
+<script>
+    // Funzione per aprire il modal di modifica
+    function openEditModal(idClasse, materia, classe) {
+        document.getElementById('editModal').style.display = 'block';
+        document.getElementById('editIdClasse').value = idClasse;
+        document.getElementById('editMateria').value = materia;
+        document.getElementById('editClasse').value = classe;
+    }
+    
+    // Chiudi il modal quando si clicca sulla X
+    document.querySelector('.close').onclick = function() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    
+    // Chiudi il modal quando si clicca fuori da esso
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('editModal')) {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    }
+</script>
